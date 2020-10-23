@@ -45,16 +45,29 @@ if (isset($_GET['type']) || $_GET['id'] != '') {
             $categories_value = $row['categories']; // takeing value to display in the categories box 
             if (isset($_POST['submit'])) 
             {
-                $categories = $_POST['categories']; // retriving value using post method
+                $categories = get_safe_value($con,$_POST['categories']); // retriving value using post method
                 $sql="SELECT * FROM categories WHERE categories='$categories';";
                $res=mysqli_query($con,$sql);
                $check=mysqli_num_rows($res);
                
                 if ($check > 0) 
                 {
-                    $msg = " Categorie Already Exist";
+                    if(isset($_GET['id'])&& $_GET['id']!='')
+                    {
+                        $getData=mysqli_fetch_assoc($res);
+                        if($id==$getData['id'])
+                        {
+
+                        }
+                        else
+                        {
+                            $msg = " Categorie Already Exist";
+                        }
+
+                    }       
+                    
                 }
-                 else 
+                 if($msg=='') 
                 {
                     // adding into database
                     $sql = "UPDATE  categories SET categories='$categories' WHERE id='$id'";
