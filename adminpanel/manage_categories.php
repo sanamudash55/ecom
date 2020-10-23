@@ -1,58 +1,75 @@
 <?php
 
 require('top.inc.php');
-$categories_value='';
+$categories_value = '';
+$msg = '';
 
-if(isset($_GET['type']) || $_GET['id']!='')
-
-{   $type=get_safe_value($con,$_GET['type']);
-      // add block
-    if($_GET['type']=='add')
+if (isset($_GET['type']) || $_GET['id'] != '') {
+    $type = get_safe_value($con, $_GET['type']);
+    // add block
+    if ($_GET['type'] == 'add') 
     {
 
-        if(isset($_POST['submit']))
+        if (isset($_POST['submit'])) 
         {
-            $categories=$_POST['categories']; // retriving value using post method
-            // adding into database
-            $sql="INSERT INTO categories (categories,status) VALUES ('$categories',1)";
-            mysqli_query($con,$sql);
-            header('location:categories.php');
-            die();
+            $categories = $_POST['categories']; // retriving value using post method
+            $sql="SELECT * FROM categories WHERE categories='$categories';";
+            $res=mysqli_query($con,$sql);
+            $check=mysqli_num_rows($res);
+            if($check>0)
+            {
+                $msg="Categories Already Exists";
+                
+            }
+            else
+            {
+                         // adding into database
+               $sql = "INSERT INTO categories (categories,status) VALUES ('$categories',1)";
+               mysqli_query($con, $sql);
+               header('location:categories.php');
+               die();
+            }
+          
         }
-
     }
-        // edit block
-    if($type=='edit')
+    // edit block
+    if ($type == 'edit') 
     {
-        $id=get_safe_value($con,$_GET['id']);   // retriving id of categories form get method 
-        $sql="SELECT * FROM categories WHERE id='$id'";
-        $res=mysqli_query($con,$sql);
-        $check=mysqli_num_rows($res);
-        if($check>0)
+        $id = get_safe_value($con, $_GET['id']);   // retriving id of categories form get method 
+        $sql = "SELECT * FROM categories WHERE id='$id'";
+        $res = mysqli_query($con, $sql);
+        $check = mysqli_num_rows($res);
+        if ($check > 0) 
         {
             $row = mysqli_fetch_assoc($res);
-            $categories_value=$row['categories']; // takeing value to display in the categories box 
-            if(isset($_POST['submit']))
+            $categories_value = $row['categories']; // takeing value to display in the categories box 
+            if (isset($_POST['submit'])) 
             {
-                $categories=$_POST['categories']; // retriving value using post method
-                // adding into database
-                $sql="UPDATE  categories SET categories='$categories' WHERE id='$id'";
-                mysqli_query($con,$sql);
-                header('location:categories.php');
-                die();
+                $categories = $_POST['categories']; // retriving value using post method
+                $sql="SELECT * FROM categories WHERE categories='$categories';";
+               $res=mysqli_query($con,$sql);
+               $check=mysqli_num_rows($res);
+               
+                if ($check > 0) 
+                {
+                    $msg = " Categorie Already Exist";
+                }
+                 else 
+                {
+                    // adding into database
+                    $sql = "UPDATE  categories SET categories='$categories' WHERE id='$id'";
+                    mysqli_query($con, $sql);
+                    header('location:categories.php');
+                    die();
+                }
             }
-        }
-        else
+        } 
+        else 
         {
             header('location:categories.php');
             die();
         }
-        
     }
-
-
-
-
 }
 
 
@@ -66,7 +83,7 @@ if(isset($_GET['type']) || $_GET['id']!='')
                     <div class="card-header"><strong>Categories</strong><small> Form</small></div>
                     <form method="POST">
                         <div class="card-body card-block">
-                            <div class="form-group"><label for="categories" class=" form-control-label">Categories</label><input type="text" id="categories" placeholder="Enter Categories Name" class="form-control" name="categories" <?php if ($type=='edit') {
+                            <div class="form-group"><label for="categories" class=" form-control-label">Categories</label><input type="text" id="categories" placeholder="Enter Categories Name" class="form-control" name="categories" <?php if ($type == 'edit') {
                                                                                                                                                                                                                                             echo "value='$categories_value'";
                                                                                                                                                                                                                                         } ?>required></div>
 
