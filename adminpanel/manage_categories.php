@@ -4,7 +4,8 @@ require('top.inc.php');
 $categories_value = '';
 $msg = '';
 
-if (isset($_GET['type']) || $_GET['id'] != '') {
+if (isset($_GET['type']) || $_GET['id'] != '') 
+{
     $type = get_safe_value($con, $_GET['type']);
     // add block
     if ($_GET['type'] == 'add') 
@@ -77,12 +78,13 @@ if (isset($_GET['type']) || $_GET['id'] != '') {
                 }
             }
         } 
-        else 
-        {
-            header('location:categories.php');
-            die();
-        }
+      
     }
+}
+else 
+{
+    header('location:categories.php');
+    die();
 }
 
 
@@ -96,9 +98,11 @@ if (isset($_GET['type']) || $_GET['id'] != '') {
                     <div class="card-header"><strong>Categories</strong><small> Form</small></div>
                     <form method="POST">
                         <div class="card-body card-block">
-                            <div class="form-group"><label for="categories" class=" form-control-label">Categories</label><input type="text" id="categories" placeholder="Enter Categories Name" class="form-control" name="categories" <?php if ($type == 'edit') {
-                                                                                                                                                                                                                                            echo "value='$categories_value'";
-                                                                                                                                                                                                                                        } ?>required></div>
+                            <div class="form-group">
+                                <label for="categories" class=" form-control-label">Categories</label>
+                                <input type="text" id="categories" placeholder="Enter Categories Name" class="form-control" name="categories" <?php if ($type == 'edit') { echo "value='$categories_value'";} ?>required>
+                            </div>
+                         
 
                             <button id="payment-button" name="submit" type="submit" class="btn btn-lg btn-info btn-block">
                                 <span id="payment-button-amount" name="submit">Submit</span>

@@ -54,7 +54,7 @@ if (isset($_GET['type']) && ($_GET['id']) != '') {
                             <thead>
                                 <tr>
                                     <th class="serial">Serial_no</th>
-                                    <th class="avatar">ID</th>
+                                    <th class="avatar">Categories_ID</th>
                                     <th>Categories</th>
                                     <th>Status</th>
 
