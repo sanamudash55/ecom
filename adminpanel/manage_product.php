@@ -106,6 +106,8 @@ if (isset($_GET['type']) || $_GET['id'] != '')
                {
                 if($_FILES['image']['type']!='' && $_FILES['image']['type']!='image/png'||$_FILES['image']['type']!='image/jpg'|| $_FILES['image']['type']!='image/jpeg')
                 {
+                    // image validation 
+
                     $image=rand(11111111,99999999).'_'.$_FILES['image']['name'];
                 move_uploaded_file($_FILES['image']['tmp_name'],PRODUCT_IMAGE_SERVER_PATH.$image); 
                     
